@@ -1,13 +1,16 @@
 # Bingo-Social-Site
 Replica of facebook with minimal features :)
 
-#### This is the final project for Coding-Blocks. The Movie Review Site has the following features:-
+#### Bingo Social Site has the following features:-
   - Passport Authentication, Login-Signup system
-  - Feed for the latest movies
-  - You can search for movies of any language, genre.
-  - Filters according to release-date, box-office collection, release date etc can be applied.
-  - See the details, trailer, cast and recommended movies.
-  - Add to favourites.
+  - Newsfeed area that shows the post, comment, and share made by everybody.
+  - Ability to post(upload) photos and videos.
+  - Share images using the external urls.
+  - Share thoughts, feelings along with emojis.
+  - Profile area contains all the posts and comments done by yourself.
+  - Online private chat area.
+  - Chat privately even if a large number of users are connected.
+  
   
 ![screenshot 83](https://user-images.githubusercontent.com/31181068/36629477-26462698-197c-11e8-8ba9-4e4db9077105.png)
 ![screenshot 84](https://user-images.githubusercontent.com/31181068/36629480-2c0d4052-197c-11e8-896b-f16ff4695790.png)
