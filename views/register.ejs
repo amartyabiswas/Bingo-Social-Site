@@ -1,0 +1,112 @@
+<!-- views/register.ejs -->
+<!doctype html>
+<html>
+<head>
+    <title>Bingo!</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <style>
+        body{
+            padding-top:80px;
+            background-repeat: no-repeat;
+            background-size: cover;
+
+            animation-name: shine;
+            animation-iteration-count: infinite;
+            animation-duration: 60s;
+            transition-delay: 5s;
+        }
+
+        @keyframes shine {
+
+            0%{
+                background-image: url("http://thelifepile.com/wp-content/uploads/2016/04/animation-compilation-e1436174018958.jpg");
+            }
+            12.5%{
+                background-image: url("http://giantsizeteamup.com/breakingthepanel/wp-content/uploads/2017/11/Thor-Ragnarok-International-Character-Posters-feat.jpg");
+            }
+            25%{
+                background-image: url("https://tctechcrunch2011.files.wordpress.com/2014/03/popcorntime1.png?w=1279&h=727&crop=1");
+            }
+            37.5%{
+                background-image: url("https://www.hdwallpapers.in/walls/justice_league_2017_movie-wide.jpg");
+            }
+            50%{
+                background-image: url("https://news.marvel.com/wp-content/uploads/2016/09/5528464fad4c1.jpg");
+            }
+            62.5%{
+                background-image: url("https://foripadapps.com/wp-content/uploads/2017/09/Harry-Potter-Wallpaper-For-iPad-1920x1080-4.jpg");
+            }
+            75%{
+                background-image: url("https://hdwallsource.com/img/2014/8/narnia-30709-31430-hd-wallpapers.jpg");
+            }
+            87.5%{
+                background-image: url("https://images4.alphacoders.com/210/thumb-1920-210384.jpg");
+            }
+            100%{
+                background-image: url("http://thelifepile.com/wp-content/uploads/2016/04/animation-compilation-e1436174018958.jpg");
+            }
+        }
+
+        .container{
+            height: 530px;
+            width: 1000px;
+            background-color:#1d1a1ac4;
+            border-radius: 10px;
+            color: white;
+            box-shadow: 19px 20px 20px 0px black;
+
+        }
+    </style>
+</head>
+<body>
+<%if(message!==''){%>
+<script>
+    alert('The user name has already been taken');
+</script>
+<%}%>
+
+<div class="container">
+    <div class="col-sm-6 col-sm-offset-3" style="margin-left: 100px">
+        <h1><span class="fa fa-sign-in"></span> Signup</h1>
+        <!-- LOGIN FORM -->
+        <br>
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+            <input name="myImage" class="btn btn-primary" type="file" style=" display: inline; padding-left: 34px">
+            <button type="submit" class="btn btn-primary">Upload Profile Pic</button>
+        </form>
+        <br>
+        <form action="/register" method="post">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" class="form-control" name="username" required>
+            </div>
+            <div class="form-group">
+                <label>E-mail</label>
+                <input type="text" class="form-control" name="email" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-warning btn-lg">Signup</button>
+        </form>
+        <hr>
+
+        <p>Already have an account? <a href="/login" style="color: darkblue">Login</a></p>
+        <p>Or go <a href="/" style="color: darkblue">home</a>.</p>
+
+    </div>
+
+</div>
+
+<script>
+    <%if(message===''){%>
+    document.getElementById('btn').onclick=function () {
+        alert('Signed up Successfully.')
+    };
+    <%}%>
+</script>
+
+</body>
+</html>

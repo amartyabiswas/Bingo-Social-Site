@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<title>
+			Bingo!
+		</title>
+        <style>
+            .navbar-nav{
+                right: 50px;
+                color: white;
+                font-weight: bold;
+            }
+            .navbar{
+                background: linear-gradient(to right, #AA076B, #1D2B64);
+            }
+            body{
+                background: linear-gradient(to right, #AA076B, #1D2B64);
+            }
+            hr {
+                display: block;
+                height: 2px;
+                border: 0;
+                border-top: 1px solid black;
+                margin: 1em 0;
+                padding: 0;
+            }
+        </style>
+	</head>
+	<body>
+
+    <nav class="navbar navbar-expand-lg navbar navbar">
+        <img src="http://robertsuh.com/BingoLogo.png" width="200" height="60" class="d-inline-block align-top" alt="">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav position-absolute" style="font-size: 24px">
+                <span class="nav-item nav-link" style="color: white; font-weight: bold; font-size: 24px">Welcome! <%=file.username%></span>
+                <a class="nav-item nav-link active" href="/profile">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="/myInfo">Profile</a>
+                <a class="nav-item nav-link" href="/logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+<hr>
+    <!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<span class="avatar"><img src="../uploads/<%=file.profile%>" alt="" /></span>
+						<h1>This is <strong><%=file.username%></strong>'s Repository. It contains all the posts, images and videos uploaded by <%=file.username%>.</h1>
+					</header>
+
+				<!-- Main -->
+					<section id="main">
+
+						<!-- Thumbnails -->
+							<section class="thumbnails">
+                                <%data.forEach(function(val){%>
+                                    <% if(val.username===file.username){ %>
+                                        <% if(val.msg==='image'){ %>
+                                            <div>
+                                                <a href="images/fulls/01.jpg">
+                                                    <img src="../uploads/<%= val.img %>" alt="" />
+                                                    <h3>It's an amazing image...</h3>
+                                                </a>
+                                            </div>
+                                        <%}else if(val.msg==='video'){%>
+                                            <div>
+                                                <a href="images/fulls/01.jpg">
+                                                    <video id="VideoReload"  controls src="../uploads/<%= val.video%>" class="img-fluid">That's it</video>
+                                                    <h3>It's an amazing video...Really!</h3>
+                                                </a>
+                                            </div>
+                                        <%}else if(val.msg==='url'){%>
+                                            <div>
+                                                <a href="images/fulls/01.jpg">
+                                                    <img src="<%= val.img %>" alt="" />
+                                                    <h3>It's an amazing image...</h3>
+                                                </a>
+                                            </div>
+                                        <%}%>
+                                    <%}%>
+                                <%});%>
+							</section>
+
+					</section>
+
+
+                <div class="footer" align="right">
+                    <p style="color: white; font-size: 22px; font-family: 'Monotype Corsiva'">
+                        - Developed by Amartya Biswas
+                        <br>
+                        Copyright <i class="fa fa-copyright" style="color: white; font-size: 19px"></i> 2018@amartya
+                    </p>
+                </div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.poptrox.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/main.js"></script>
+	</body>
+</html>

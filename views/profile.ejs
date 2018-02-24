@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        Bingo!
+    </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+
+    <style>
+        body,html,h1,h2,p, div,a,img,header,footer,span{
+            margin: 0;
+            padding: 0;
+        }
+        *{box-sizing:border-box}
+
+        main{
+            width:100%;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .col{
+            float: left;
+            text-align: left;
+            padding:1rem;
+        }
+
+        .col1{
+            background: linear-gradient(to bottom right, #1BFFFF, #2E3192);
+            width: 28.5%;
+        }
+        .col2{ background: #fff200;
+                width: 43%;
+        }
+        .col3{ background: linear-gradient(to bottom right,#D74177 ,#FFE98A);;
+                width: 28.5%;
+        }
+
+        @media only screen and (max-width:850px){
+
+            .col1, .col2{
+                width:50%;
+            }
+            .col3{
+                width:50%;
+                position: absolute;
+                top: 600px;
+                float: left;
+            }
+        }
+        .navbar-nav{
+            right: 50px;
+        }
+
+        #para{
+            width: 86%;
+        }
+
+        .contains{
+            border: dashed;
+            padding: 4px;
+            box-shadow: 0 0 20px 3px black;
+        }
+
+        .descript{
+            border: solid;
+            border-radius: 2%;
+            height: 200px;
+            padding: 10px;
+            font-family: "Monotype Corsiva";
+            font-size: 25px;
+            color: yellow;
+            background-color: crimson;
+        }
+
+        .chat{
+            border: dashed;
+            padding: 4px;
+            box-shadow: 0 0 10px 3px black;
+        }
+
+        body{
+            background-color: black;
+        }
+
+        h1{
+            font-family: 'Kaushan Script';
+        }
+        h3{
+            font-family: "Oswald";
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar navbar" style="background-color: black">
+    <img src="http://robertsuh.com/BingoLogo.png" width="200" height="60" class="d-inline-block align-top" alt="">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav position-absolute" style="font-size: 19px">
+            <span class="nav-item nav-link" style="color: deepskyblue">Welcome! <%=file.username%></span>
+            <a class="nav-item nav-link active" href="/profile">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" href="/myInfo">Profile</a>
+            <a class="nav-item nav-link" href="/logout">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<main>
+    <div class="col col1">
+        <h1>Upload And Share</h1><br>
+        <form action="/uploads" method="POST" enctype="multipart/form-data" style="font-size: 11px">
+            <input name="avatar" class="btn btn-primary" type="file" style=" display: inline; font-size: 12px; width: 65%; padding-left: 5px; margin-right: 15px"><button class="btn btn-primary" style="font-size: 12px" type="submit">Upload Images</button>
+            <br><br>
+            <div class="input-group mb-3">
+                <input name="image" type="text" class="form-control" id="basic-url" placeholder=" or Paste Url of an image..." style="border: solid #007bff" aria-describedby="basic-addon3">
+            </div>
+        </form><br>
+        <form action="/videoUploads" method="POST" enctype="multipart/form-data" style="font-size: 11px">
+            <input name="myVideo" class="btn btn-success" type="file" style=" display: inline; font-size: 12px; width: 65%; padding-left: 5px; margin-right: 15px"><button class="btn btn-success" style="font-size: 12px" type="submit">Upload Videos</button>
+        </form><br>
+        <form action="/description" method="POST" style="font-size: 11px; text-align: left">
+            <div class="input-group">
+                <textarea name="description" class="form-control" aria-label="With textarea" type="text" placeholder="Upload Thoughts, Ideas and share" style="width: 80%; border: solid #ffc107"></textarea>
+                <button type="submit" class="btn btn-warning">Post</button>
+            </div>
+        </form>
+        <br>
+        <form action="/urlShare" method="POST" style="font-size: 11px; text-align: left">
+            <div class="input-group">
+                <textarea name="urls" class="form-control" aria-label="With textarea" type="text" placeholder=" Share any links and urls..." style="width: 80%; border: solid #dc3545"></textarea>
+                <button type="submit" class="btn btn-danger">Post</button>
+            </div>
+        </form>
+    </div>
+    <div class="col col2">
+        <h1>Newsfeed/Timeline</h1><br>
+
+        <%data.forEach(function(val){%>
+        <div class="contains">
+
+            <% if(val.msg==='image'){ %>
+                <p id="para" style="display: inline-block; width: 86%;"><strong>Shared by: <%= val.username%></strong></p>
+            <%if(val.username===file.username){%>
+                <form style="display: inline;" method='post' action='/deletePosts/<%= val._id%>'>
+                    <input class="btn btn-danger"  type='submit' value='delete'>
+                </form>
+
+            <%}%>
+
+                <img src="./uploads/<%= val.img%>" width="600" height="337.5" class="img-fluid" alt="">
+            <br><br>
+            <%val.comments.forEach(function(data){%>
+
+                <p id="para" style="display: inline-block"><strong><%= data.username%></strong>: <%= data.content%></p>
+
+            <%});%>
+
+            <br><br>
+
+            <form style="display: inline;" method ='post' action='/comment/<%= val._id%>'>
+                <input class="form-control" type='text' name ='content' placeholder='write a comment here' style="width: 81%; padding-right: 2px; display: inline">
+                <input class="btn btn-info" type='submit' value='comment'>
+            </form><br><br>
+            <%}else if(val.msg==='video'){%>
+
+            <p id="para" style="display: inline-block"><strong>Shared by: <%= val.username%></strong></p>
+            <%if(val.username===file.username){%>
+                <form style="display: inline;" method='post' action='/deletePosts/<%= val._id%>'>
+                    <input class="btn btn-danger" type='submit' value='delete'>
+                </form>
+            <%}%>
+
+            <video id="VideoReload" width="700" controls src="./uploads/<%= val.video%>" class="img-fluid">That's it</video>
+            <br><br>
+            <%val.comments.forEach(function(data){%>
+
+                <p id="para" style="display: inline-block"><strong><%= data.username%></strong>: <%= data.content%></p>
+
+            <%});%>
+
+            <br><br>
+            <form style="display: inline;" method ='post' action='/comment/<%= val._id%>'>
+                <input class="form-control" type='text' name ='content' placeholder='write a comment here' style="width: 81%; padding-right: 2px; display: inline">
+                <input class="btn btn-info" type='submit' value='comment'>
+            </form><br><br>
+            <%}else if(val.msg==='desc'){%>
+
+            <p id="para" style="display: inline-block"><strong>Shared by: <%= val.username%></strong></p>
+
+            <%if(val.username===file.username){%>
+                <form style="display: inline" method='post' action='/deletePosts/<%= val._id%>'>
+                    <input class="btn btn-danger" type='submit' value='delete'>
+                </form>
+            <%}%>
+
+            <div class="descript">
+                <p style="display: inline-block"><%= val.description%></p>
+            </div>
+            <br><br>
+            <%val.comments.forEach(function(data){%>
+
+                <p id="para" style="display: inline-block"><strong><%= data.username%></strong>: <%= data.content%></p>
+
+            <%});%>
+
+            <br><br>
+            <form style="display: inline" method ='post' action='/comment/<%= val._id%>'>
+                <input class="form-control" type='text' name ='content' placeholder='write a comment here' style="width: 81%; padding-right: 2px;display: inline">
+                <input class="btn btn-info" type='submit' value='comment'>
+            </form><br><br>
+
+            <%}else if(val.msg==='url'){%>
+
+            <p id="para" style="display: inline-block"><strong>Shared by: <%= val.username%></strong></p>
+            <%if(val.username===file.username){%>
+                <form style="display: inline" method='post' action='/deletePosts/<%= val._id%>'>
+                    <input class="btn btn-danger" type='submit' value='delete'>
+                </form>
+            <%}%>
+
+            <img src="<%= val.img%>" width="600" height="337.5" class="img-fluid" alt="">
+            <br><br>
+            <%val.comments.forEach(function(data){%>
+
+                <p id="para" style="display: inline-block"><strong><%= data.username%></strong>: <%= data.content%></p>
+
+            <%});%>
+
+            <br><br>
+            <form style="display: inline" method ='post' action='/comment/<%= val._id%>'>
+                <input class="form-control" type='text' name ='content' placeholder='write a comment here' style="width: 81%; padding-right: 2px; display: inline">
+                <input class="btn btn-info" type='submit' value='comment'>
+            </form><br><br>
+            <%}else if(val.msg==='share'){%>
+
+            <p id="para" style="display: inline-block"><strong>Shared by: <%= val.username%></strong></p>
+                <%if(val.username===file.username){%>
+                    <form style="display: inline" method='post' action='/deletePosts/<%= val._id%>'>
+                        <input class="btn btn-danger" type='submit' value='delete'>
+                    </form>
+                <%}%>
+            <br><br>
+                <a style="padding: 10px" href="<%= val.urls%>" target="_blank"><%= val.urls%></a>
+            <br><br>
+
+            <%val.comments.forEach(function(data){%>
+                <p id="para" style="display: inline-block"><strong><%= data.username%></strong>: <%= data.content%></p>
+            <%});%>
+
+            <br><br>
+                <form style="display: inline" method ='post' action='/comment/<%= val._id%>'>
+                    <input class="form-control" type='text' name ='content' placeholder='write a comment here' style="width: 81%; padding-right: 2px; display: inline">
+                    <input class="btn btn-info" type='submit' value='comment'>
+                </form>
+            <br><br>
+            <%}%>
+
+        </div>
+        <%});%>
+
+    </div>
+    <div class="col col3">
+        <h1>Chat Room</h1><br>
+        <div id="messageArea" class="row" style=" padding-left: 14px; width: 104%">
+            <div style="display: block">
+                <div class="well">
+                    <h3>Online Users</h3>
+                    <ul class="list-group" id="users" type="none">
+                        <!--All the users come here-->
+                    </ul>
+                </div>
+            </div>
+            <br><br> <br><br><br>
+            <div style="display: inline-block; width: 100%">
+                <div class="chat" id="chat">
+                    <!--Chats come here-->
+                </div>
+                <form id="messageForm">
+                    <div class="form-group">
+                        <br>
+                        <label>Enter Message</label>
+                            <textarea class="form-control" id="message" placeholder="Your Message Goes here"></textarea>
+                        <br>
+                            <input type="submit" id="btn" class="btn btn-primary" value="Send Message">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <footer id="footer">
+            <div class="footer" align="right">
+                <p style="color: black; font-size: 22px; font-family: 'Monotype Corsiva'">
+                    - Developed by Amartya Biswas
+                    <br>
+                    Copyright <i class="fa fa-copyright" style="color: black; font-size: 19px"></i> 2018@amartya
+                </p>
+            </div>
+        </footer>
+    </div>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"></script>
+
+<script>
+    let selected=undefined;
+    let chats={};
+    $(function () {
+        let socket=io.connect();
+
+        let username='<%= file.username %>';
+        let profile='<%= file.profile %>';
+        let messageForm=$('#messageForm');
+        let message=$('#message');
+        let chat=$('#chat');
+
+        messageForm.submit(function (e) {
+            e.preventDefault();
+            if(selected===undefined){
+                alert("Please select an online user to send the message :)");
+                return;
+            }
+            socket.emit('send_message',{
+                from:username,
+                to:selected,
+                profile: profile,
+                input: message.val()
+            })
+            message.val('');
+        });
+
+        socket.emit('user', {"username":username,"profile": profile});
+
+        socket.on('get',function(data) {
+            if(data.to===username||data.from===username)
+            {
+
+                let msg;
+                if(data.from===username) {
+                    let source="./uploads/"+data.profile;
+                    msg = '<div align="right" style="width: 100%"><img style="border-radius: 100%; display: inline-block" height="36" width="36" src="'+source+'">&nbsp;&nbsp;<div class="mymsg" style="display: inline">' + data.input + '</div></div>';
+                }else{
+                    let source="./uploads/"+data.profile;
+                    msg='<div style="width: 100%"><img style="border-radius: 100%" height="36" width="36" src="'+source+'">&nbsp;&nbsp;<div class="otherusermsg" style="display: inline">'+data.input+'</div></div>';
+                }
+
+                let equal=data.to===username?"'"+data.from+"'":"'"+data.to+"'";
+
+                if(chats[equal]===undefined){
+                    chats[equal]=msg;
+                }else{
+                    chats[equal]=msg+chats[equal];
+                }
+
+                //console.log(chats);
+                chat.html(chats[equal]);
+
+                if(data.to!==username){
+                    if(selected!==undefined) {
+                        $('[name='+selected+']').removeClass('selected');
+                    }
+                    selected=data.to;
+                    $('[name='+selected+']').addClass('selected');
+                }else{
+                    if(selected!==undefined) {
+                        $('[name='+selected+']').removeClass('selected');
+                    }
+                    selected=data.from;
+                    $('[name='+selected+']').addClass('selected');
+                }
+            }
+        });
+
+        socket.on('activeusers',function(data) {
+            let keys=Object.keys(data);
+            $('#users').html(' ');
+            for(let i=0;i<keys.length;i++) {
+                let value = data[keys[i]].username;
+                if (value !== username) {
+                    let source="./uploads/"+data[keys[i]].profile;
+                    $('#users').append('<li id='+i+' class="chat-heads" style="color: blue" name="'+value+'" onclick="fnc(this)"><div class ="username"><img style="border-radius: 100%" height="36" width="36" src="'+source+'">' + value + '</div></li>');
+                }
+            }
+        });
+
+    });
+
+    function fnc(el){
+        if(selected!==undefined) {
+            $('[name='+selected+']').removeClass('selected');
+        }
+        selected=el.textContent;
+        if(chats["'"+selected+"'"]===undefined){
+            $('#chat').html(" ");
+        }else{
+            $('#chat').html(chats["'"+selected+"'"]);
+        }
+        $("#"+el.id).addClass('selected');
+    }
+</script>
+
+</body>
+</html>
